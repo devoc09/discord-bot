@@ -31,8 +31,42 @@ func getresp(resp *http.Response) uint64 {
 	}
 }
 
-func SendMessage(url string, message *Message) (<-chan uint64, <-chan error, error) {
-	msg, err := json.Marshal(message)
+func SendMinMessage(url string, minmessage *MinMessage) (<-chan uint64, <-chan error, error) {
+	msg, err := json.Marshal(minmessage)
+	if err != nil {
+		return nil, nil, fmt.Errorf("JSON marshal error: %s", err)
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(msg))
+	if err != nil {
+		return nil, nil, fmt.Errorf("Create Request error: %s", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	doneCh, errCh := make(chan uint64), make(chan error)
+
+	go func() {
+		client := http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			errCh <- err
+			return
+		}
+
+		switch getresp(resp) {
+		case 0:
+			doneCh <- 0
+		case 1:
+			errCh <- err
+		}
+	}()
+
+	return doneCh, errCh, nil
+}
+
+func SendEmbedMessage(url string, embedmessage *EmbedMessage) (<-chan uint64, <-chan error, error) {
+	msg, err := json.Marshal(embedmessage)
 	if err != nil {
 		return nil, nil, fmt.Errorf("JSON marshal error: %s", err)
 	}
