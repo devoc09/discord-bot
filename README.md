@@ -15,7 +15,7 @@ Author's env
 1. make dir `$HOME/.config/discord-bot` and put `config.json` to `~/.config/discord-bot/`
 1. make `config.yaml` into `~/.config/gtodo/`<br>
 ```yaml
-# config.yaml
+# config.json
 [
     {
         "avatar_url": "BOT's icons image url",
