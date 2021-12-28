@@ -55,12 +55,21 @@ func (cli *CLI) Run(args []string) int {
 			sum += v
 		}
 		mutil := sys.MemUtil() // memory util
+        tutil, err := sys.TempUtil()
+        if err != nil {
+            return ExitCodeError
+        }
+        fmt.Println(tutil)
 
-		feilds := make([]webhook.Field, 2)
+		feilds := make([]webhook.Field, 2+len(tutil))
 
 		// feilds[0] = webhook.Field{Name: "CPU INFO", Value: fmt.Sprintf("Per: %v%%", strconv.FormatFloat(comcutil[0], 'f', 2, 64))}
 		feilds[0] = webhook.Field{Name: "CPU INFO", Value: fmt.Sprintf("Per: %v%%", strconv.FormatFloat(sum/8, 'f', 2, 64))}
 		feilds[1] = webhook.Field{Name: "Memory INFO", Value: fmt.Sprintf("Total: %v, Free: %v, UserdPercent: %f%%\n", mutil.Total, mutil.Free, mutil.UsedPercent)}
+        for i, v := range tutil {
+            temp := v.Temp/1000
+            feilds[2+i] = webhook.Field{Name: v.Name, Value: fmt.Sprintf("%v °C", temp)}
+        }
 
 		embeds := make([]webhook.Embed, 1)
 		embeds[0] = webhook.Embed{Color: 5620992, Fields: feilds}
