@@ -32,7 +32,7 @@ func (cli *CLI) Run(args []string) int {
 	flags.Usage = func() {
 		fmt.Fprintf(cli.errStream, usage, Name)
 	}
-	flags.BoolVar(&info, "i", false, "send Server Info(CPU, Memory) to discord webhook url")
+	flags.BoolVar(&info, "i", false, "send Server Info(CPU, Memory, Temperature) to discord webhook url")
 	flags.BoolVar(&send, "s", false, "send Message to discord webhook url")
 	flags.BoolVar(&help, "h", false, "display help message")
 	flags.BoolVar(&version, "v", false, "display the version")
@@ -145,7 +145,7 @@ Usage: %s [options]
     Post message to Discord webhook URL.
 
 Command:
-    -i <message>    send <message> and host CPU & Memory Info to discord webhook url.
+    -i <message>    send <message> and host CPU & Memory & Temperature Info to discord webhook url.
     -s <message>    send <message> to discord webhook url.
     -h              Print Help message
     -v              Print the version of this application
