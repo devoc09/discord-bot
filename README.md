@@ -32,7 +32,7 @@ Usage: discord-bot [options]
     Post message to Discord webhook URL.
 
 Command:
-    -i <message>    send <message> and host CPU & Memory Info to discord webhook url.
+    -i <message>    send <message> and host CPU & Memory & Temperature Info to discord webhook url.
     -s <message>    send <message> to discord webhook url.
     -h              Print Help message
     -v              Print the version of this application
