@@ -49,21 +49,20 @@ func (cli *CLI) Run(args []string) int {
 			return ExitCodeReadConfigError
 		}
 		sys := &internal.System{}
-		si := sys
-		comcutil := si.CpuUtil(0, true) // combine cpu util
+		comcutil := sys.CpuUtil(0, true) // combine cpu util
 		var sum float64
 		for _, v := range comcutil {
 			sum += v
 		}
-		mutil := si.MemUtil() // memory util
+		mutil := sys.MemUtil() // memory util
 
-		feilds := make([]webhook.Field, 2, 2)
+		feilds := make([]webhook.Field, 2)
 
 		// feilds[0] = webhook.Field{Name: "CPU INFO", Value: fmt.Sprintf("Per: %v%%", strconv.FormatFloat(comcutil[0], 'f', 2, 64))}
 		feilds[0] = webhook.Field{Name: "CPU INFO", Value: fmt.Sprintf("Per: %v%%", strconv.FormatFloat(sum/8, 'f', 2, 64))}
 		feilds[1] = webhook.Field{Name: "Memory INFO", Value: fmt.Sprintf("Total: %v, Free: %v, UserdPercent: %f%%\n", mutil.Total, mutil.Free, mutil.UsedPercent)}
 
-		embeds := make([]webhook.Embed, 1, 1)
+		embeds := make([]webhook.Embed, 1)
 		embeds[0] = webhook.Embed{Color: 5620992, Fields: feilds}
 
 		message := &webhook.EmbedMessage{Username: username, Content: arg, Avatar_url: avatar_url, Embeds: embeds}
