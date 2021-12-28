@@ -61,7 +61,7 @@ func (cli *CLI) Run(args []string) int {
 		}
 		fmt.Println(tutil)
 
-		feilds := make([]webhook.Field, 2+len(tutil))
+		feilds := make([]webhook.Field, 3+len(tutil))
 
 		hostname, err := os.Hostname()
 		if err != nil {
