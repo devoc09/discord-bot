@@ -59,7 +59,6 @@ func (cli *CLI) Run(args []string) int {
 		if err != nil {
 			return ExitCodeError
 		}
-		fmt.Println(tutil)
 
 		feilds := make([]webhook.Field, 3+len(tutil))
 
