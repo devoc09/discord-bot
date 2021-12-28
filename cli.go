@@ -25,7 +25,7 @@ type CLI struct {
 }
 
 func (cli *CLI) Run(args []string) int {
-	var info, send, help, version bool
+	var info, send, version bool
 
 	flags := flag.NewFlagSet(Name, flag.ContinueOnError)
 	flags.SetOutput(cli.errStream)
@@ -34,7 +34,7 @@ func (cli *CLI) Run(args []string) int {
 	}
 	flags.BoolVar(&info, "i", false, "send Server Info(CPU, Memory, Temperature) to discord webhook url")
 	flags.BoolVar(&send, "s", false, "send Message to discord webhook url")
-	flags.BoolVar(&help, "h", false, "display help message")
+	// flags.BoolVar(&help, "h", false, "display help message")
 	flags.BoolVar(&version, "v", false, "display the version")
 
 	if err := flags.Parse(args[1:]); err != nil {
@@ -119,10 +119,10 @@ func (cli *CLI) Run(args []string) int {
 		return ExitCodeOK
 	}
 
-	if help {
-		flags.Usage()
-		return ExitCodeOK
-	}
+	// if help {
+	// 	flags.Usage()
+	// 	return ExitCodeOK
+	// }
 
 	if version {
 		fmt.Fprintf(cli.errStream, "%s v%s\n", Name, Version)
